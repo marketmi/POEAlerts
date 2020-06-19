@@ -113,10 +113,11 @@ public class POEAlerts {
                                         if (executeAlert) {
                                             File alertSoundFile = new File(alert.getSound());
                                             WavPlayer alertSound = alertSoundFile.exists() ? new WavPlayer(alertSoundFile) : null;
-                                            if (alertSound != null)
+                                            if (alertSound != null) {
                                                 alertSound.play();
-                                            else
-                                                Beeper.beep(800, 75, 0.25);
+                                            } else {
+                                                Beeper.beep();
+                                            }
                                             break;
                                         }
                                     }
