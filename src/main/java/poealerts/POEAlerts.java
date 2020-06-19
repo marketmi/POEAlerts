@@ -86,32 +86,32 @@ public class POEAlerts {
                                 if (itemText != null && !"".equals(itemText)) {
                                     String[] clipboardLines = itemText.split("\\r?\\n");
                                     for (Alert alert : alertList) {
-                                        if (!alert.enabled) continue;
+                                        if (!alert.isEnabled()) continue;
                                         int andMatchCount = 0;
                                         boolean orMatched = false;
                                         boolean executeAlert = false;
                                         for (String line : clipboardLines) {
-                                            for (String regexItem : alert.matchAll) {
+                                            for (String regexItem : alert.getMatchAll()) {
                                                 if (line.matches(regexItem)) {
                                                     andMatchCount++;
                                                     break;
                                                 }
                                             }
                                             if (!orMatched) {
-                                                for (String regexItem : alert.matchAny) {
+                                                for (String regexItem : alert.getMatchAny()) {
                                                     if (line.matches(regexItem)) {
                                                         orMatched = true;
                                                         break;
                                                     }
                                                 }
                                             }
-                                            if ((orMatched || alert.matchAny.size() == 0) && andMatchCount >= alert.matchAll.size()) {
+                                            if ((orMatched || alert.getMatchAny().size() == 0) && andMatchCount >= alert.getMatchAll().size()) {
                                                 executeAlert = true;
                                                 break;
                                             }
                                         }
                                         if (executeAlert) {
-                                            File alertSoundFile = new File(alert.sound);
+                                            File alertSoundFile = new File(alert.getSound());
                                             WavPlayer alertSound = alertSoundFile.exists() ? new WavPlayer(alertSoundFile) : null;
                                             if (alertSound != null)
                                                 alertSound.play();
